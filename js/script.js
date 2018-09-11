@@ -1,5 +1,10 @@
 // FSJS - Random Quote Generator
 
+//auto-refresh code for getting a new quote
+var refresh = setInterval(printQuote, 20000); 
+var bgRefresh = setInterval(getRandomColor, 20000);
+
+
 // Create the array of quote objects and name it quotes
 var quotes = [
     {
@@ -30,7 +35,8 @@ var quotes = [
         quote: "Carpe diem. Seize the day, boys. Make your lives extraordinary.",
         source: "Robin Williams",
         citation: "Dead Poets Society",
-        year: '1989'
+        year: '1989',
+        tag: ', Drama'
     },
     {
         quote: "The greatest trick the devil ever pulled was convincing the world he didn't exist.",
@@ -48,7 +54,8 @@ var quotes = [
         quote: "You make me want to be a better man.",
         source: 'Jack Nicholson',
         citation: 'As Good as It Gets',
-        year: '1997'
+        year: '1997',
+        tag: ', Rom-com'
     },
     {
         quote: "Leave the gun. Take the cannoli.",
@@ -60,16 +67,45 @@ var quotes = [
         quote: "It'd be a lot cooler if you did.",
         source: 'Matthew McConaughey',
         citation: 'Dazed and Confused',
-        year: '1993'
+        year: '1993',
+        tag: ', Comedy'
     }
 ];
 
 
 // Create the getRandomQuote function and name it getRandomQuote
+function getRandomQuote (quotes) {
+    var randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    return randomQuote;
+}
 
+// Create the printQuote function and name it printQuote
+function printQuote () {
+    var selectedQuote = getRandomQuote(quotes);
+    var outputQuote = '<p class= "quote">' + selectedQuote.quote + '</p>';
+        outputQuote += '<p class = "source">' + selectedQuote.source  
+        if (selectedQuote.citation) {
+            outputQuote += '<span class = "citation">' + selectedQuote.citation + '</span>'
+        }
+        if (selectedQuote.year) {
+            outputQuote += '<span class = "year">' + selectedQuote.year + '</span>'
+        }
+        if (selectedQuote.tag) {
+            outputQuote += '<span class = "tag">' + selectedQuote.tag + '</span>'
+        }'</p>'
+    document.getElementById('quote-box').innerHTML = outputQuote;
+}
 
-// Create the printQuote funtion and name it printQuote
-
+//function for random color refresh
+function getRandomColor() {
+    var x = Math.floor(Math.random() * 256);
+    var y = Math.floor(Math.random() * 256);
+    var z = Math.floor(Math.random() * 256);
+    var bgColor = "rgb("+ x +", "+ y +", "+ z +")";
+    document.body.style.background = bgColor;
+}
+//will allow the backgroundcolor to change
+document.getElementById('loadQuote').addEventListener('click', getRandomColor, false);
 
 
 // This event listener will respond to "Show another quote" button clicks
